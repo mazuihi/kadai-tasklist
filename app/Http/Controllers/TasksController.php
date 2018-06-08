@@ -42,11 +42,13 @@ class TasksController extends Controller
      */
     public function create()
     {
+      if(\Auth::user()->id === $task->user_id){
         $task = new Task;
 
         return view('tasks.create', [
             'task' => $task,
         ]);
+      }
     }
 
     /**
@@ -79,11 +81,13 @@ class TasksController extends Controller
      */
     public function show($id)
     {
+     if(\Auth::user()->id === $task->user_id){
         $task = Task::find($id);
 
         return view('tasks.show', [
             'task' => $task,
         ]);
+     }
     }
 
     /**
@@ -95,12 +99,13 @@ class TasksController extends Controller
     public function edit($id)
     {
         $task = Task::find($id);
+        if(\Auth::user()->id === $task->user_id){
 
         return view('tasks.edit', [
             'task' => $task,
         ]);
+      }
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -110,6 +115,7 @@ class TasksController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $this->validate($request, [
             'status' => 'required|max:10',  
             'content' => 'required|max:191',
