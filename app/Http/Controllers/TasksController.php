@@ -42,8 +42,8 @@ class TasksController extends Controller
      */
     public function create()
     {
-      if(\Auth::user()->id === $task->user_id){
         $task = new Task;
+      if(\Auth::check()){
 
         return view('tasks.create', [
             'task' => $task,
@@ -81,8 +81,9 @@ class TasksController extends Controller
      */
     public function show($id)
     {
-     if(\Auth::user()->id === $task->user_id){
         $task = Task::find($id);
+     if(\Auth::user()->id === $task->user_id){
+    
 
         return view('tasks.show', [
             'task' => $task,
