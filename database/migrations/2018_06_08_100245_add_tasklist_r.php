@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMicrotasklistTable extends Migration
+class AddTasklistR extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateMicrotasklistTable extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::table('tasks', function (Blueprint $table) {
             $table->integer('user_id')->unsigned()->index();
-            $table->string('content');
-            $table->timestamps();
-            $table->string('status');
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
@@ -30,6 +26,9 @@ class CreateMicrotasklistTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::table('tasks', function (Blueprint $table) {
+                   $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 }
