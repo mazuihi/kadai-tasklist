@@ -49,6 +49,9 @@ class TasksController extends Controller
             'task' => $task,
         ]);
       }
+        else {
+            return view('welcome');
+        }      
     }
 
     /**
@@ -89,6 +92,9 @@ class TasksController extends Controller
             'task' => $task,
         ]);
      }
+     else {
+            return view('welcome');
+        }
     }
 
     /**
@@ -106,6 +112,9 @@ class TasksController extends Controller
             'task' => $task,
         ]);
       }
+        else {
+            return view('welcome');
+        }      
     }
     /**
      * Update the specified resource in storage.
@@ -143,8 +152,13 @@ class TasksController extends Controller
 
         if (\Auth::user()->id === $task->user_id) {
             $task->delete();
-        }
-
+        
         return redirect('/');
+            
+        }
+        else {
+            return view('welcome');
+        }        
+        
     }
 }
