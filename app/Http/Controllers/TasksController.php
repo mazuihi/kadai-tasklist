@@ -17,7 +17,6 @@ class TasksController extends Controller
      */
     public function index()
     {
-        
         $data = [];
         if (\Auth::check()) {
             $user = \Auth::user();
@@ -85,7 +84,8 @@ class TasksController extends Controller
     public function show($id)
     {
         $task = \App\Task::find($id);
-     if(\Auth::user()->id === $task->user_id){
+        if (\Auth::check()) {
+          if(\Auth::user()->id === $task->user_id){
     
 
         return view('tasks.show', [
@@ -93,6 +93,10 @@ class TasksController extends Controller
         ]);
      }
      else {
+            return view('welcome');
+        }
+        }
+        else {
             return view('welcome');
         }
     }
@@ -106,16 +110,20 @@ class TasksController extends Controller
     public function edit($id)
     {
         $task = \App\Task::find($id);
-        
-        if(\Auth::user()->id === $task->user_id){
-
-        return view('tasks.edit', [
-            'task' => $task,
-        ]);
+        if (\Auth::check()) {
+          if(\Auth::user()->id === $task->user_id){
+                 return view('tasks.edit', [
+                'task' => $task,
+                ]);
+      }
+          else {
+            return view('welcome');
+        }      
       }
         else {
             return view('welcome');
-        }      
+        }
+          
     }
     /**
      * Update the specified resource in storage.
@@ -147,19 +155,20 @@ class TasksController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-        public function destroy($id)
-    {
-        $task = \App\Task::find($id);
-
-        if (\Auth::user()->id === $task->user_id) {
-            $task->delete();
-        
-        return redirect('/');
-            
-        }
-        else {
+        public function destroy($id) {
+            $task = \App\Task::find($id);
+            if (\Auth::check()) {
+               if (\Auth::user()->id === $task->user_id) {
+                 $task->delete();
+               return redirect('/');
+             }
+             else {
             return view('welcome');
-        }        
-        
-    }
+             }   
+            }
+            else {
+            return view('welcome');
+            }
+    
+        }
 }
